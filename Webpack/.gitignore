@@ -2,3 +2,5 @@ node_modules
 */dist/main.js
 *.js.LICENSE*
 bundle.js
+*/public/*.jpg
+/task_3/public
