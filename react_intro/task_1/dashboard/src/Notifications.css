@@ -1,0 +1,7 @@
+.notification-items {
+  border: #e1003c dotted 2.5px;;
+}
+
+.notification-items p {
+  margin-left : 1rem;
+}
