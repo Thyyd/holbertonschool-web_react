@@ -25,4 +25,28 @@ describe('App component', () => {
     const headerImgAlt = screen.getByAltText(/holberton logo/i);
     expect(headerImgAlt).toBeInTheDocument();
   });
+
+  test('Vérification des inputs associés aux labels', () => {
+    render(<App />);
+    const emailInput = screen.getByLabelText(/email/i);
+    const passwordInput = screen.getByLabelText(/password/i);
+    expect(emailInput).toBeInTheDocument();
+    expect(passwordInput).toBeInTheDocument();
+  });
+
+  test('Vérification du texte des labels', () => {
+    render(<App />);
+    const emailLabel = screen.getByText(/email/i);
+    const passwordLabel = screen.getByText(/password/i);
+    expect(emailLabel.tagName).toBe('LABEL');
+    expect(passwordLabel.tagName).toBe('LABEL');
+    expect(emailLabel).toBeInTheDocument();
+    expect(passwordLabel).toBeInTheDocument();
+  });
+
+  test('Vérification du bouton', () => {
+    render(<App />);
+    const formButton = screen.getByRole('button', { name: /OK/i });
+    expect(formButton).toBeInTheDocument();
+  });
 });
