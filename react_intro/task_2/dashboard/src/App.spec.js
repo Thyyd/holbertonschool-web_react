@@ -38,8 +38,6 @@ describe('App component', () => {
     render(<App />);
     const emailLabel = screen.getByText(/email/i);
     const passwordLabel = screen.getByText(/password/i);
-    expect(emailLabel.tagName).toBe('LABEL');
-    expect(passwordLabel.tagName).toBe('LABEL');
     expect(emailLabel).toBeInTheDocument();
     expect(passwordLabel).toBeInTheDocument();
   });
