@@ -28,6 +28,14 @@ describe('Notifications component', () => {
     expect(liElements).toHaveLength(3);
   });
 
+  test('Vérification du texte des 3 li', () => {
+    render(<Notifications notifications={notificationsList} />);
+    const liElements = screen.getAllByRole('listitem');
+    expect(liElements[0]).toHaveTextContent(/New course available/i);
+    expect(liElements[1]).toHaveTextContent(/New resume available/i);
+    expect(liElements[2]).toHaveTextContent(/Urgent requirement - complete by EOD/i);
+  });
+
   test("Vérification de l'eventHandler 'click' sur le bouton", () => {
     render(<Notifications />);
     const consoleSpy = jest.spyOn(console, 'log')
