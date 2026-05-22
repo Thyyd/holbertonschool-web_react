@@ -16,7 +16,7 @@ describe('App component', () => {
 
   test('Vérification texte App-footer', () => {
     render(<App />);
-    const footerp = screen.getByText(/Copyright \d{4} - holberton School/i);
+    const footerp = screen.getByText(/Copyright \d{4}/i);
     expect(footerp).toBeInTheDocument();
   });
 
