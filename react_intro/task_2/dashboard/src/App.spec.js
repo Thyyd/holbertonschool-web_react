@@ -44,7 +44,7 @@ describe('App component', () => {
 
   test('Vérification du bouton', () => {
     render(<App />);
-    const formButton = screen.getByRole('button', { name: /OK/i });
+    const formButton = screen.getByRole('button', { name: /^ok$/i });
     expect(formButton).toBeInTheDocument();
   });
 });
