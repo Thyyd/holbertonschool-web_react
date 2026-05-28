@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
 
 describe('App component', () => {
@@ -49,24 +49,22 @@ describe('App component', () => {
   // Tests logOut
   test("Vérification de l'appel à la fonction logOut quand 'Ctrl + h' sont pressés", () => {
     const logOutSpy = jest.fn();
+    const logOutAlertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
     render(<App isLoggedIn={true} logOut={logOutSpy} />);
 
-    const keyEvent = new KeyboardEvent('keydown', { key: 'h', ctrlKey: true });
-    window.dispatchEvent(keyEvent);
+    fireEvent.keyDown(document, { key: 'h', ctrlKey: true });
 
     expect(logOutSpy).toHaveBeenCalledTimes(1);
+    logOutAlertSpy.mockRestore();
   });
 
   test("Vérification de l'appel window.alert avec 'Logging you out' quand 'Ctrl + h' sont pressés", () => {
-    const logOutSpy = jest.fn();
-    const originalAlert = window.alert;
-    window.alert = jest.fn();
-    render(<App isLoggedIn={true} logOut={logOutSpy} />);
+    const logOutAlertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    render(<App isLoggedIn={true} />);
 
-    const keyEvent = new KeyboardEvent('keydown', { key: 'h', ctrlKey: true });
-    window.dispatchEvent(keyEvent);
+    fireEvent.keyDown(document, { key: 'h', ctrlKey: true });
 
-    expect(window.alert).toHaveBeenCalledWith('Logging you out');
-    window.alert = originalAlert;
+    expect(logOutAlertSpy).toHaveBeenCalledWith('Logging you out');
+    logOutAlertSpy.mockRestore();
   });
 });
