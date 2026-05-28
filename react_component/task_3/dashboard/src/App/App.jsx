@@ -5,6 +5,8 @@ import Header from '../Header/Header.jsx';
 import LoginForm from '../Login/Login.jsx';
 import CourseList from '../CourseList/CourseList.jsx';
 import Footer from '../Footer/Footer.jsx';
+import BodySection from '../BodySection/BodySection.jsx';
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom.jsx'
 import { getLatestNotification } from '../utils/utils';
 
 class App extends Component {
@@ -41,7 +43,17 @@ class App extends Component {
             <Notifications notifications={notificationsList} />
           </div>
         </div>
-        {this.props.isLoggedIn ? <CourseList courses={coursesList} /> : <LoginForm />}
+        {this.props.isLoggedIn ?
+          <BodySectionWithMarginBottom title={'Course list'}>
+            <CourseList courses={coursesList} />
+          </BodySectionWithMarginBottom>:
+          <BodySectionWithMarginBottom title={'Log in to continue'}>
+            <LoginForm />
+          </BodySectionWithMarginBottom>
+        }
+        <BodySection title={'News from the School'}>
+          <p>Holberton School News goes here</p>
+        </BodySection>
         <Footer />
       </Fragment>
     )

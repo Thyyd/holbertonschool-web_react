@@ -67,4 +67,13 @@ describe('App component', () => {
     expect(logOutAlertSpy).toHaveBeenCalledWith('Logging you out');
     logOutAlertSpy.mockRestore();
   });
+
+  // Tests BodySection
+  test('Vérification de la présence des éléments du composant BodySection (h2 & paragraph)', () => {
+    render(<App />);
+    const BodySectionh2 = screen.getByRole('heading', { level: 2, name: /News from the School/i });
+    const BodySectionp = screen.getByText(/Holberton School News goes here/i);
+    expect(BodySectionh2).toBeInTheDocument();
+    expect(BodySectionp).toBeInTheDocument();
+  });
 });
