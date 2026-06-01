@@ -1,6 +1,6 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 
-class NotificationItem extends Component {
+class NotificationItem extends PureComponent {
   render() {
     return(
       this.props.html ?
