@@ -8,6 +8,10 @@ import Footer from '../Footer/Footer.jsx';
 import { getLatestNotification } from '../utils/utils';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   handleKeyDown = (e) => {
     if ('ctrlKey' in e && 'key' in e) {
       if (e.ctrlKey && e.key === 'h') {
