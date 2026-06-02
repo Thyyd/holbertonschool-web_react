@@ -8,8 +8,12 @@ import Footer from '../Footer/Footer.jsx';
 import { getLatestNotification } from '../utils/utils';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
   }
 
   handleKeyDown = (e) => {
@@ -50,15 +54,6 @@ class App extends Component {
       </Fragment>
     )
   }
-
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
-
 }
 
 App.defaultProps = {
