@@ -17,11 +17,10 @@ class App extends Component {
   }
 
   handleKeyDown = (e) => {
-    const pressedKey = typeof e.key === 'string' ? e.key.toLowerCase() : ''
-    if (e.ctrlKey && (pressedKey === 'h' || e.keyCode === 72)) {
-      alert('Logging you out');
-      this.props.logOut();
-    }
+      if (e.ctrlKey && e.key.toLowerCase() === 'h') {
+        alert('Logging you out');
+        this.props.logOut();
+      }
   }
 
   render() {
