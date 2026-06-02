@@ -9,19 +9,18 @@ import { getLatestNotification } from '../utils/utils';
 
 class App extends Component {
   componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
+    document.addEventListener('keydown', this.handleKeyDown);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
+    document.removeEventListener('keydown', this.handleKeyDown);
   }
 
   handleKeyDown = (e) => {
-    if ('ctrlKey' in e && 'key' in e) {
-      if (e.ctrlKey && (e.key.toLowerCase() === 'h' || e.keyCode === 72)) {
-        window.alert('Logging you out');
-        this.props.logOut();
-      }
+    const pressedKey = typeof e.key === 'string' ? e.key.toLowerCase() : ''
+    if (e.ctrlKey && (pressedKey === 'h' || e.keyCode === 72)) {
+      alert('Logging you out');
+      this.props.logOut();
     }
   }
 
