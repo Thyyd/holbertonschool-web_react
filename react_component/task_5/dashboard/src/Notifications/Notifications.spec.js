@@ -9,6 +9,17 @@ const notificationsList = [
   {id: 3, type: 'urgent', html: getLatestNotification()}
 ];
 
+const notificationsList2 = [
+  {id: 1, type: 'default', value: 'Fallen of Albaz'},
+  {id: 2, type: 'default', value: 'Dragon/effect'},
+  {id: 3, type: 'urgent', value: 'The new Branded Deck'}
+];
+
+const notificationsList3 = [
+  {id: 1, type: 'default', value: 'Fallen of Albaz'},
+  {id: 2, type: 'urgent', value: 'The new Branded Deck'}
+];
+
 describe('Notifications component', () => {
   test("Vérification de la présence du message 'Here is the list of notifications'", () => {
     render(<Notifications displayDrawer={true}/>);
@@ -86,5 +97,34 @@ describe('Notifications component', () => {
     fireEvent.click(notificationText);
     expect(consoleSpy).toHaveBeenCalledWith('Notification 2 has been marked as read');
     consoleSpy.mockRestore();
+  });
+
+  test("Vérification que le composant ne se re-rende pas si la longueur de notificationsList ne change pas", () => {
+    const { rerender } = render(<Notifications notifications={notificationsList} displayDrawer={true} />);
+    let liElements = screen.getAllByRole('listitem');
+    expect(liElements[0]).toHaveTextContent(/New course available/i);
+    expect(liElements[1]).toHaveTextContent(/New resume available/i);
+    expect(liElements[2]).toHaveTextContent(/Urgent requirement - complete by EOD/i);
+
+    rerender(<Notifications notifications={notificationsList2} displayDrawer={true} />);
+    liElements = screen.getAllByRole('listitem');
+    expect(liElements[0]).toHaveTextContent(/New course available/i);
+    expect(liElements[1]).toHaveTextContent(/New resume available/i);
+    expect(liElements[2]).toHaveTextContent(/Urgent requirement - complete by EOD/i);
+  });
+
+  test("Vérification que le composant se re-rende si la longueur de notificationsList change", () => {
+    const { rerender } = render(<Notifications notifications={notificationsList} displayDrawer={true} />);
+    let liElements = screen.getAllByRole('listitem');
+    expect(liElements).toHaveLength(3);
+    expect(liElements[0]).toHaveTextContent(/New course available/i);
+    expect(liElements[1]).toHaveTextContent(/New resume available/i);
+    expect(liElements[2]).toHaveTextContent(/Urgent requirement - complete by EOD/i);
+
+    rerender(<Notifications notifications={notificationsList3} displayDrawer={true} />);
+    liElements = screen.getAllByRole('listitem');
+    expect(liElements).toHaveLength(2);
+    expect(liElements[0]).toHaveTextContent(/Fallen of Albaz/i);
+    expect(liElements[1]).toHaveTextContent(/The new Branded Deck/i);
   });
 });
