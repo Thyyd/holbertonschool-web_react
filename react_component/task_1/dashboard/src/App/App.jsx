@@ -14,7 +14,7 @@ class App extends Component {
 
   handleKeyDown = (e) => {
     if ('ctrlKey' in e && 'key' in e) {
-      if (e.ctrlKey && e.key.toLowerCase() === 'h') {
+      if (e.ctrlKey && (e.key.toLowerCase() === 'h' || e.keyCode === 72)) {
         window.alert('Logging you out');
         this.props.logOut();
       }
