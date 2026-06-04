@@ -15,7 +15,7 @@ function CourseListRow({ isHeader = false, textFirstCell = '', textSecondCell = 
     }
   }
   return(
-    <tr className={isHeader ? "bg-table-header opacity-66" : "bg-table-rows opacity-45"}>{ trContent }</tr>
+    <tr className={isHeader ? "bg-table-header/[66%]" : "bg-table-rows/[45%]"}>{ trContent }</tr>
   )
 }
 
