@@ -22,13 +22,13 @@ const notificationsList3 = [
 
 describe('Notifications component', () => {
   test("Vérification de la présence du message 'Here is the list of notifications'", () => {
-    render(<Notifications displayDrawer={true}/>);
+    render(<Notifications notifications={notificationsList} displayDrawer={true}/>);
     const notifTitle = screen.getByText(/Here is the list of notifications/i);
     expect(notifTitle).toBeInTheDocument();
   });
 
   test('Vérification de la présence du bouton close', () => {
-    render(<Notifications displayDrawer={true}/>);
+    render(<Notifications notifications={notificationsList} displayDrawer={true}/>);
     const closeButton = screen.getByRole('button');
     expect(closeButton).toBeInTheDocument();
   });
@@ -48,7 +48,7 @@ describe('Notifications component', () => {
   });
 
   test("Vérification de l'eventHandler 'click' sur le bouton", () => {
-    render(<Notifications displayDrawer={true}/>);
+    render(<Notifications notifications={notificationsList} displayDrawer={true}/>);
     const consoleSpy = jest.spyOn(console, 'log')
     const closeButton = screen.getByRole('button');
     fireEvent.click(closeButton);
@@ -73,9 +73,9 @@ describe('Notifications component', () => {
     render(<Notifications displayDrawer={true}/>);
     const notificationText = screen.getByText(/Your notifications/i);
     expect(notificationText).toBeInTheDocument();
-    // Vérification des éléments qui doivent s'afficher
-    expect(screen.getByRole('button')).toBeInTheDocument();
-    expect(screen.getByText(/Here is the list of notifications/i)).toBeInTheDocument();
+    // Vérification des éléments qui doivent s'afficher ou non
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    expect(screen.queryByText(/Here is the list of notifications/i)).not.toBeInTheDocument();
     const noNotifMessage = screen.getByText(/No new notification for now/i);
     expect(noNotifMessage).toBeInTheDocument();
   });
