@@ -1,5 +1,4 @@
 import { Component, Fragment } from 'react';
-import './App.css';
 import Notifications from '../Notifications/Notifications.jsx';
 import Header from '../Header/Header.jsx';
 import LoginForm from '../Login/Login.jsx';
@@ -35,8 +34,8 @@ class App extends Component {
 
     return (
       <Fragment>
-        <div className="header">
-          <div className="header-wrapper">
+        <div className="header flex justify-between items-center">
+          <div className="header-wrapper grow">
             <Header />
           </div>
           <div className="root-notifications">
