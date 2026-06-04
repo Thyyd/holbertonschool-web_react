@@ -4,7 +4,7 @@ import WithLogging from "../HOC/WithLogging";
 function CourseList({ courses = [] }) {
   return(
     <div className="w-4/5 mx-auto" id="CourseListContainer">
-      <table className="w-full" id="CourseList">
+      <table className="w-full border-collapse" id="CourseList">
         {courses.length === 0 ? <tbody><CourseListRow isHeader={ true } textFirstCell='No course available yet' /></tbody>:
         <>
           <thead>
