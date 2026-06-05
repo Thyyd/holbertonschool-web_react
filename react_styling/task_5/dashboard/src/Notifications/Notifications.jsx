@@ -17,8 +17,8 @@ class Notifications extends Component {
   render() {
     return (
       <div className='Notification-Component flex flex-wrap justify-end mr-2.5'>
-        <div className="notification-title text-right w-full">
-          <p className={this.props.notifications.length > 0 && !this.props.displayDrawer ? 'animate-bounce' : ''}>Your notifications</p>
+        <div className={`notification-title text-right w-full ${this.props.notifications.length > 0 && !this.props.displayDrawer ? ' animate-bounce' : ''}`}>
+          <p>Your notifications</p>
         </div>
         {
           this.props.displayDrawer && <div className="notification-items flex flex-col md:flex-wrap border-dashed border-[var(--main-color)] border-[2.5px]
