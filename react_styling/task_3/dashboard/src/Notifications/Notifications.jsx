@@ -56,7 +56,7 @@ class Notifications extends Component {
 
 Notifications.defaultProps = {
   notifications: [],
-  displayDrawer: true,
+  displayDrawer: false,
 };
 
 export default Notifications;
