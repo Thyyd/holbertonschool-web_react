@@ -39,9 +39,7 @@ class App extends Component {
             <Header />
           </div>
           <div className="root-notifications">
-            <Notifications
-              notifications={notificationsList}
-              displayDrawer={this.props.displayDrawer} />
+            <Notifications notifications={notificationsList} />
           </div>
         </div>
         {this.props.isLoggedIn ?
@@ -74,8 +72,7 @@ class App extends Component {
 
 App.defaultProps = {
   isLoggedIn: false,
-  logOut: () => {},
-  displayDrawer: false,
+  logOut: () => {}
 };
 
 export default App
