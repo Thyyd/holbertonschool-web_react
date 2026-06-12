@@ -6,7 +6,7 @@ import CourseList from '../CourseList/CourseList.jsx';
 import Footer from '../Footer/Footer.jsx';
 import BodySection from '../BodySection/BodySection.jsx';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom.jsx'
-import newContext, { logOut } from '../Context/context.js';
+import newContext from '../Context/context.js';
 import { getLatestNotification } from '../utils/utils';
 
 class App extends Component {
@@ -19,7 +19,6 @@ class App extends Component {
         password: '',
         isLoggedIn: false,
       },
-      logout: logOut
     };
   }
 
@@ -77,7 +76,7 @@ class App extends Component {
     // Déclaration de contextValue
     const contextValue = {
       user: this.state.user,
-      logout: this.state.logout
+      logout: this.logOut
     }
 
     return (
