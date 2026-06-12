@@ -12,13 +12,18 @@ import { getLatestNotification } from '../utils/utils';
 class App extends Component {
   constructor(props) {
     super(props);
+    const user = {
+      email: '',
+      password: '',
+      isLoggedIn: false,
+    }
     this.state = {
       displayDrawer: false,
-      user: {
-        email: '',
-        password: '',
-        isLoggedIn: false,
-      },
+      user,
+      contextValue: {
+        user: user,
+        logout: this.logOut
+      }
     };
   }
 
@@ -40,22 +45,24 @@ class App extends Component {
 
   // Fonction logIn
   logIn = (email, password) => {
+    const user = { email, password, isLoggedIn: true };
     this.setState({
-      user: {
-        email: email,
-        password: password,
-        isLoggedIn: true
+      user,
+      contextValue: {
+        user: user,
+        logout: this.logOut
       }
     })
   }
 
   // Fonction logOut
   logOut = () => {
+    const user = { email: '', password: '', isLoggedIn: false };
     this.setState({
-      user: {
-        email: '',
-        password: '',
-        isLoggedIn: false,
+      user,
+      contextValue: {
+        user: user,
+        logout: this.logOut
       }
     })
   }
@@ -73,14 +80,8 @@ class App extends Component {
       { id: 3, name: 'React', credit: '40'}
     ];
 
-    // Déclaration de contextValue
-    const contextValue = {
-      user: this.state.user,
-      logout: this.logOut
-    }
-
     return (
-      <newContext.Provider value={ contextValue } >
+      <newContext.Provider value={ this.state.contextValue } >
         <div className='flex flex-col min-h-screen'>
           <div className="header flex md:justify-between flex-col-reverse md:flex-row md:items-center">
             <div className="header-wrapper grow">
