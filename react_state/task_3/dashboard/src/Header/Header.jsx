@@ -6,7 +6,7 @@ class Header extends Component {
   static contextType = newContext;
 
   render() {
-    const { user, logout } = this.context;
+    const { user, logOut } = this.context;
 
     return (
       <>
@@ -17,7 +17,7 @@ class Header extends Component {
 
         {user.isLoggedIn && (
           <section id="logoutSection">
-            <p>Welcome <strong>{user.email}</strong> <a onClick={logout} href="#">(logout)</a></p>
+            <p>Welcome <strong>{user.email}</strong> <a onClick={logOut} href="#">(logout)</a></p>
           </section>
         )}
       </>

@@ -31,7 +31,7 @@ describe('Header component', () => {
 
   test("Vérification de la présence de la section #logoutSection quand le contexte de l'user a isLoggedIn à true.", () => {
     render(
-      <newContext.Provider value={{user: userTest, logout: () => {}}}>
+      <newContext.Provider value={{user: userTest, logOut: () => {}}}>
         <Header />
       </newContext.Provider>
     );
@@ -44,7 +44,7 @@ describe('Header component', () => {
 
     const logOutSpy = jest.fn();
     render(
-      <newContext.Provider value={{user: userTest, logout: logOutSpy}}>
+      <newContext.Provider value={{user: userTest, logOut: logOutSpy}}>
         <Header />
       </newContext.Provider>
     );

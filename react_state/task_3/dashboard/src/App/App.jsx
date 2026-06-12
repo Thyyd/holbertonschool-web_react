@@ -22,7 +22,7 @@ class App extends Component {
       user,
       contextValue: {
         user: user,
-        logout: this.logOut
+        logOut: this.logOut
       }
     };
   }
@@ -50,7 +50,7 @@ class App extends Component {
       user,
       contextValue: {
         user: user,
-        logout: this.logOut
+        logOut: this.logOut
       }
     })
   }
@@ -62,7 +62,7 @@ class App extends Component {
       user,
       contextValue: {
         user: user,
-        logout: this.logOut
+        logOut: this.logOut
       }
     })
   }
