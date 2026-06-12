@@ -114,4 +114,32 @@ describe('App component', () => {
     expect(BodySectionh2).toBeInTheDocument();
     expect(BodySectionp).toBeInTheDocument();
   });
+
+  // Test intégration avec le composant Header (Gestion Logout)
+  test('Vérification de la présence des bons éléments quand on est connecté ou déconnecté', async () => {
+    render(<App />);
+    const user = userEvent.setup();
+
+    // Simulation de la connexion
+    const emailInput = screen.getByLabelText(/email/i);
+    const passwordInput = screen.getByLabelText(/password/i);
+
+    await user.type(emailInput, 'fallen.albaz@gmail.com');
+    await user.type(passwordInput, 'Azertyuiop');
+    const formButton = screen.getByRole('button', { name: /OK/i });
+    await user.click(formButton);
+
+    // Vérification de la présence des bons éléments une fois connecté
+    const section = document.querySelector('#logoutSection');
+    expect(section).toBeInTheDocument();
+
+    // Simulation de la déconnexion
+    const logoutLink = screen.getByRole('link', { name: /logout/i });
+    await user.click(logoutLink);
+
+    // Vérification de la présence des bons éléments une fois déconnecté.
+    expect(section).not.toBeInTheDocument();
+    const loginText = screen.getByText(/login to access the full dashboard/i);
+    expect(loginText).toBeInTheDocument();
+  });
 });
