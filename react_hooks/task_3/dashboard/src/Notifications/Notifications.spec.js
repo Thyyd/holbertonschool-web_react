@@ -89,6 +89,20 @@ describe('Notifications component', () => {
     expect(readSpy).toHaveBeenCalledWith(2);
   });
 
+  test("Vérification que le composant ne se re-rende pas si la longueur de notificationsList ne change pas", () => {
+      const { rerender } = render(<Notifications notifications={notificationsList} displayDrawer={true} />);
+      let liElements = screen.getAllByRole('listitem');
+      expect(liElements[0]).toHaveTextContent(/New course available/i);
+      expect(liElements[1]).toHaveTextContent(/New resume available/i);
+      expect(liElements[2]).toHaveTextContent(/Urgent requirement - complete by EOD/i);
+
+      rerender(<Notifications notifications={notificationsList2} displayDrawer={true} />);
+      liElements = screen.getAllByRole('listitem');
+      expect(liElements[0]).toHaveTextContent(/New course available/i);
+      expect(liElements[1]).toHaveTextContent(/New resume available/i);
+      expect(liElements[2]).toHaveTextContent(/Urgent requirement - complete by EOD/i);
+    });
+
   test("Vérification que le composant se re-rende si la longueur de notificationsList change", () => {
     const { rerender } = render(<Notifications notifications={notificationsList} displayDrawer={true} />);
     let liElements = screen.getAllByRole('listitem');
