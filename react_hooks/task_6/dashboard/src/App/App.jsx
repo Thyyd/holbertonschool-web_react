@@ -27,7 +27,7 @@ function App() {
         const baseUrl = import.meta.env.BASE_URL || '/';
         const response = await axios.get(`${baseUrl}notifications.json`);
 
-        const data = Array.isArray(response.data) ? response.data : response;
+        const data = response.data;
         const transformedResponse = data.map((element, index, array) => {
           if (index === array.length - 1) {
             return { ...element, html: getLatestNotification() };
@@ -50,7 +50,7 @@ function App() {
         const baseUrl = import.meta.env.BASE_URL || '/';
         const response = await axios.get(`${baseUrl}courses.json`);
 
-        const data = Array.isArray(response.data) ? response.data : response;
+        const data = response.data;
         dispatch({ type: APP_ACTIONS.SET_COURSES, payload: data });
       }
       catch (error) {
