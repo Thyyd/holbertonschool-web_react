@@ -19,7 +19,7 @@ function appReducer(state = initialState, action) {
     case 'LOGIN':
       return { ...state, user: { email: action.payload.email, password: action.payload.password, isLoggedIn: true }};
     case 'LOGOUT':
-      return { ...state, user: { email: '', password: '', isLoggedIn: false }};
+      return { ...state, user: { email: '', password: '', isLoggedIn: false }, courses: []};
     case 'TOGGLE_DRAWER':
       return { ...state, displayDrawer: action.payload };
     case 'MARK_NOTIFICATION_READ':
