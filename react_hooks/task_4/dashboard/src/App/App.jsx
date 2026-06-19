@@ -79,8 +79,8 @@ function App() {
   // Fonction markNotificationAsRead
   const markNotificationAsRead = useCallback((id) => {
     console.log(`Notification ${id} has been marked as read`);
-    setNotifications(notifications.filter(item => item.id !== id));
-  }, [notifications]);
+    setNotifications(prev => prev.filter(item => item.id !== id));
+  }, []);
 
   // Déclaration de contextValue
   const contextValue = { user: user, logOut: logOut };
