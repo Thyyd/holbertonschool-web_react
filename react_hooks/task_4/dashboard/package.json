@@ -13,6 +13,8 @@
   "dependencies": {
     "@fontsource/roboto": "^5.2.10",
     "@tailwindcss/vite": "^4.3.0",
+    "axios": "^1.18.0",
+    "jest-mock-axios": "^4.9.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "tailwindcss": "^4.3.0"
@@ -30,6 +32,7 @@
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^6.0.1",
     "babel-jest": "^30.4.1",
+    "babel-plugin-transform-vite-meta-env": "^1.0.3",
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
@@ -41,9 +44,17 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
+    "globals": {
+      "import.meta": {
+        "env": {
+          "BASE_URL": "/"
+        }
+      }
+    },
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/fileTransformer.js",
-      "^.+\\.(css|less|scss)$": "identity-obj-proxy"
+      "^.+\\.(css|less|scss)$": "identity-obj-proxy",
+      "^axios$": "jest-mock-axios"
     },
     "setupFilesAfterEnv": [
       "<rootDir>./setupTests.js"

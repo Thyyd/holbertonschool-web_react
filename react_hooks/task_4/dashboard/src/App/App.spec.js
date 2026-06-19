@@ -1,8 +1,26 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import mockAxios from 'jest-mock-axios';
 import App from './App';
+import { getLatestNotification } from '../utils/utils';
+
+const notificationsList = [
+  {id: 1, type: 'default', value: 'New course available'},
+  {id: 2, type: 'urgent', value: 'New resume available'},
+  {id: 3, type: 'urgent', html: getLatestNotification()}
+];
+
+const coursesList = [
+  { id: 1, name: 'ES6', credit: '60'},
+  { id: 2, name: 'Webpack', credit: '20'},
+  { id: 3, name: 'React', credit: '40'}
+];
 
 describe('App component', () => {
+  afterEach(() => {
+    mockAxios.reset();
+  });
+
   test('Vérification texte h1 App-header', () => {
     render(<App />);
     const headerh1 = screen.getByRole('heading', { level: 1, name: /School dashboard/i });
@@ -99,23 +117,35 @@ describe('App component', () => {
   // Tests liés au Notification Panel
   test("Vérification que le panel s'ouvre quand on clique sur 'Your notifications'", async () => {
     render(<App />);
+    // Simulation de l'appel à Axios pour récupérer les données des fichiers json
+    await act(async () => {
+      mockAxios.mockResponse({ data: notificationsList });
+      mockAxios.mockResponse({ data: coursesList });
+    });
+
     // Simumation du clic pour ouvrir le panel
     const user = userEvent.setup();
     const yourNotifElem = screen.getByText(/Your notifications/i);
     await user.click(yourNotifElem);
 
-    const panelTitle = screen.getByText(/Here is the list of notifications/i);
+    const panelTitle = await screen.findByText(/Here is the list of notifications/i);
     expect(panelTitle).toBeInTheDocument();
   });
 
   test("Vérification que le panel se ferme quand on clique sur la croix du panel", async () => {
     render(<App />);
+    // Simulation de l'appel à Axios pour récupérer les données des fichiers json
+    await act(async () => {
+      mockAxios.mockResponse({ data: notificationsList });
+      mockAxios.mockResponse({ data: coursesList });
+    });
+
     // Simumation du clic pour ouvrir le panel
     const user = userEvent.setup();
     const yourNotifElem = screen.getByText(/Your notifications/i);
     await user.click(yourNotifElem);
 
-    const panelTitle = screen.getByText(/Here is the list of notifications/i);
+    const panelTitle = await screen.findByText(/Here is the list of notifications/i);
     expect(panelTitle).toBeInTheDocument();
 
     const closeButton = screen.getByRole('button', { name: /close/i });
@@ -126,12 +156,18 @@ describe('App component', () => {
   test("Vérification que la notification cliquée soit bien retirée avec un message le confirmant dans la console", async () => {
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     render(<App />);
+    // Simulation de l'appel à Axios pour récupérer les données des fichiers json
+    await act(async () => {
+      mockAxios.mockResponse({ data: notificationsList });
+      mockAxios.mockResponse({ data: coursesList });
+    });
+
     // Simumation du clic pour ouvrir le panel
     const user = userEvent.setup();
     const yourNotifElem = screen.getByText(/Your notifications/i);
     await user.click(yourNotifElem);
 
-    const panelTitle = screen.getByText(/Here is the list of notifications/i);
+    const panelTitle = await screen.findByText(/Here is the list of notifications/i);
     expect(panelTitle).toBeInTheDocument();
 
     // Simulation du clic sur une notification pour vérifier qu'elle disparaîsse et que le message est bien log dans la console
@@ -195,5 +231,51 @@ describe('App component', () => {
     passwordInput = screen.getByLabelText(/password/i);
     expect(emailInput).toHaveValue('');
     expect(passwordInput).toHaveValue('');
+  });
+
+  // Tests pour vérifier les appels Axios
+  test("Vérification que les données de notifications.json sont bien récupérées au chargelent initial", async () => {
+    render(<App />);
+    // Simulation de l'appel à Axios pour récupérer les données des fichiers json
+    await act(async () => {
+      mockAxios.mockResponse({ data: notificationsList });
+      mockAxios.mockResponse({ data: coursesList });
+    });
+
+    // Simumation du clic pour ouvrir le panel
+    const user = userEvent.setup();
+    const yourNotifElem = screen.getByText(/Your notifications/i);
+    await user.click(yourNotifElem);
+
+    const panelNotification = await screen.findByText(/New course available/i);
+    expect(panelNotification).toBeInTheDocument();
+  });
+
+  test("Vérification que les données de courses.json sont bien récupérées quand le state d'user change", async () => {
+    render(<App />);
+    // Simulation de l'appel à Axios pour récupérer les données des fichiers json
+    await act(async () => {
+      mockAxios.mockResponse({ data: notificationsList });
+      mockAxios.mockResponse({ data: coursesList });
+    });
+    // Initialisation de l'user
+    const user = userEvent.setup();
+
+    // Simulation de la connexion
+    const emailInput = screen.getByLabelText(/email/i);
+    const passwordInput = screen.getByLabelText(/password/i);
+
+    await user.type(emailInput, 'fallen.albaz@gmail.com');
+    await user.type(passwordInput, 'Azertyuiop');
+    const formButton = screen.getByRole('button', { name: /OK/i });
+    await user.click(formButton);
+
+    // Vérification de récupération des données de courses.json quand le state de l'user change
+    await act(async () => {
+      mockAxios.mockResponse({ data: coursesList });
+    });
+
+    const courses = await screen.findByText(/Webpack/i);
+    expect(courses).toBeInTheDocument();
   });
 });

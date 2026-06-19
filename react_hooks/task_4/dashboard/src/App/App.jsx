@@ -1,4 +1,5 @@
-import { memo, useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import axios from 'axios';
 import Notifications from '../Notifications/Notifications.jsx';
 import Header from '../Header/Header.jsx';
 import LoginForm from '../Login/Login.jsx';
@@ -9,26 +10,12 @@ import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBot
 import newContext from '../Context/context.js';
 import { getLatestNotification } from '../utils/utils';
 
-// Déclaration de notificationsList
-const notificationsList = [
-  {id: 1, type: 'default', value: 'New course available'},
-  {id: 2, type: 'urgent', value: 'New resume available'},
-  {id: 3, type: 'urgent', html: getLatestNotification()}
-];
-
-// Déclaration de coursesList
-const coursesList = [
-  { id: 1, name: 'ES6', credit: '60'},
-  { id: 2, name: 'Webpack', credit: '20'},
-  { id: 3, name: 'React', credit: '40'}
-];
-
 function App() {
   // Déclaration des différents states
   const [displayDrawer, setDisplayDrawer] = useState(true);
   const [user, setUser] = useState({ email: '', password: '', isLoggedIn: false });
-  const [notifications, setNotifications] = useState(notificationsList);
-
+  const [notifications, setNotifications] = useState([]);
+  const [courses, setCourses] = useState([]);
 
   const handleDisplayDrawer = useCallback(() => {
     setDisplayDrawer(true);
@@ -36,6 +23,40 @@ function App() {
   const handleHideDrawer = useCallback(() => {
     setDisplayDrawer(false);
   }, []);
+
+  useEffect(() => {
+    const fetchNotificationsData = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.BASE_URL}notifications.json`);
+        const transformedResponse = response.data.map((element, index, array) => {
+          if (index === array.length - 1) {
+            return { ...element, html: getLatestNotification() };
+          } else {
+            return element;
+          }
+        })
+        setNotifications(transformedResponse);
+      }
+      catch (error) {
+        console.error(error);
+      }
+    };
+    fetchNotificationsData();
+  }, []);
+
+  useEffect(() => {
+    const fetchCoursesData = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.BASE_URL}courses.json`);
+        setCourses(response.data);
+      }
+      catch (error) {
+        console.error(error);
+      }
+    };
+    fetchCoursesData();
+  }, [user]);
+
 
   // Fonction logIn
   const logIn = useCallback((email, password) => {
@@ -75,7 +96,7 @@ function App() {
         </div>
         {user.isLoggedIn ?
           <BodySectionWithMarginBottom title={'Course list'}>
-            <CourseList courses={coursesList} />
+            <CourseList courses={courses} />
           </BodySectionWithMarginBottom>:
           <BodySectionWithMarginBottom title={'Log in to continue'}>
             <LoginForm logIn={logIn} email={user.email} password={user.password} />

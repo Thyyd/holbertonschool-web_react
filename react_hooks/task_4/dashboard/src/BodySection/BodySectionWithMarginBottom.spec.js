@@ -1,5 +1,5 @@
 import BodySectionWithMarginBottom from "./BodySectionWithMarginBottom";
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 describe('BodySectionWithMarginBottom component', () => {
   test("Vérification le composant BodySectionWithMarginBottom génère une div avec la bonne classe", () => {
