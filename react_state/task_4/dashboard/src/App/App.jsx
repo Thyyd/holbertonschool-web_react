@@ -31,7 +31,7 @@ class App extends Component {
       { id: 3, name: 'React', credit: '40'}
     ];
     this.state = {
-      displayDrawer: false,
+      displayDrawer: true,
       user,
       contextValue: {
         user: user,
