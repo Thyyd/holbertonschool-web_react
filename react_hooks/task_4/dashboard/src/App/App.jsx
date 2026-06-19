@@ -27,7 +27,8 @@ function App() {
   useEffect(() => {
     const fetchNotificationsData = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.BASE_URL}notifications.json`);
+        const baseUrl = import.meta.env.BASE_URL || '/';
+        const response = await axios.get(`${baseUrl}notifications.json`);
         const transformedResponse = response.data.map((element, index, array) => {
           if (index === array.length - 1) {
             return { ...element, html: getLatestNotification() };
