@@ -15,10 +15,10 @@ function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   const handleDisplayDrawer = useCallback(() => {
-    dispatch({ type: APP_ACTIONS.TOGGLE_DRAWER, payload: true });
+    dispatch({ type: APP_ACTIONS.TOGGLE_DRAWER });
   }, [dispatch]);
   const handleHideDrawer = useCallback(() => {
-    dispatch({ type: APP_ACTIONS.TOGGLE_DRAWER, payload: false });
+    dispatch({ type: APP_ACTIONS.TOGGLE_DRAWER });
   }, [dispatch]);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ function App() {
   // Fonction markNotificationAsRead
   const markNotificationAsRead = useCallback((id) => {
     console.log(`Notification ${id} has been marked as read`);
-    dispatch({ type: APP_ACTIONS.MARK_NOTIFICATION_READ, payload: { id } });
+    dispatch({ type: APP_ACTIONS.MARK_NOTIFICATION_READ, payload: id });
   }, [dispatch]);
 
   return (

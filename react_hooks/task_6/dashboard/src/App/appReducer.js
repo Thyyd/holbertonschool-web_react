@@ -8,7 +8,7 @@ const APP_ACTIONS = {
 };
 
 const initialState = {
-  displayDrawer: true,
+  displayDrawer: false,
   user: { email: '', password: '', isLoggedIn: false },
   notifications: [],
   courses: []
@@ -21,9 +21,9 @@ function appReducer(state = initialState, action) {
     case 'LOGOUT':
       return { ...state, user: { email: '', password: '', isLoggedIn: false }, courses: []};
     case 'TOGGLE_DRAWER':
-      return { ...state, displayDrawer: action.payload };
+      return { ...state, displayDrawer: !state.displayDrawer };
     case 'MARK_NOTIFICATION_READ':
-      return { ...state, notifications: state.notifications.filter(item => item.id !== action.payload.id)};
+      return { ...state, notifications: state.notifications.filter(item => item.id !== action.payload)};
     case 'SET_NOTIFICATIONS':
       return { ...state, notifications: action.payload };
     case 'SET_COURSES':
