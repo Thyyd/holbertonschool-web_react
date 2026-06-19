@@ -37,8 +37,8 @@ class App extends Component {
         user: user,
         logOut: this.logOut
       },
-      notificationsList,
-      coursesList,
+      notifications: notificationsList,
+      courses: coursesList,
     };
   }
 
