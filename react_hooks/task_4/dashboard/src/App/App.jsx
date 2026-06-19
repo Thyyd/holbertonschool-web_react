@@ -29,7 +29,9 @@ function App() {
       try {
         const baseUrl = import.meta.env.BASE_URL || '/';
         const response = await axios.get(`${baseUrl}notifications.json`);
-        const transformedResponse = response.data.map((element, index, array) => {
+
+        const data = Array.isArray(response.data) ? response.data : response;
+        const transformedResponse = data.map((element, index, array) => {
           if (index === array.length - 1) {
             return { ...element, html: getLatestNotification() };
           } else {
@@ -48,8 +50,11 @@ function App() {
   useEffect(() => {
     const fetchCoursesData = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.BASE_URL}courses.json`);
-        setCourses(response.data);
+        const baseUrl = import.meta.env.BASE_URL || '/';
+        const response = await axios.get(`${baseUrl}courses.json`);
+
+        const data = Array.isArray(response.data) ? response.data : response;
+        setCourses(data);
       }
       catch (error) {
         console.error(error);
