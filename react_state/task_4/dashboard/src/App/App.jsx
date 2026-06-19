@@ -85,7 +85,7 @@ class App extends Component {
   // Méthode markNotificationAsRead
   markNotificationAsRead = (id) => {
     console.log(`Notification ${id} has been marked as read`);
-    this.setState({notificationsList: this.state.notificationsList.filter(item => item.id !== id)});
+    this.setState({notifications: this.state.notifications.filter(item => item.id !== id)});
   }
 
   render() {
@@ -97,7 +97,7 @@ class App extends Component {
               <Header />
             </div>
             <div className="root-notifications">
-              <Notifications notifications={this.state.notificationsList}
+              <Notifications notifications={this.state.notifications}
                 markNotificationAsRead={this.markNotificationAsRead}
                 displayDrawer={this.state.displayDrawer}
                 handleDisplayDrawer={this.handleDisplayDrawer}
@@ -106,7 +106,7 @@ class App extends Component {
           </div>
           {this.state.user.isLoggedIn ?
             <BodySectionWithMarginBottom title={'Course list'}>
-              <CourseList courses={this.state.coursesList} />
+              <CourseList courses={this.state.courses} />
             </BodySectionWithMarginBottom>:
             <BodySectionWithMarginBottom title={'Log in to continue'}>
               <LoginForm logIn={this.logIn} email={this.state.user.email} password={this.state.user.password} />
