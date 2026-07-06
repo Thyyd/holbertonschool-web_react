@@ -14,7 +14,7 @@ const ENDPOINTS = {
 
 const fetchNotifications = createAsyncThunk(
   'notifications/fetchNotifications',
-  async () => {
+  async (_, thunkAPI) => {
     try {
       const response = await (await fetch(ENDPOINTS.notifications)).json();
 
@@ -29,7 +29,7 @@ const fetchNotifications = createAsyncThunk(
       return transformedResponse;
     }
     catch (error) {
-      console.error(error);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 )
