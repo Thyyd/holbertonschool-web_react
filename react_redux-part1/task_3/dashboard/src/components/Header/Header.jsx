@@ -1,6 +1,17 @@
 import HbSLogo from '../../assets/holberton-logo.jpg';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../features/auth/authSlice';
 
-function Header({ user, logOut }) {
+function Header() {
+
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user = useSelector((state) => state.auth.user);
+
+  const dispatch = useDispatch();
+
+  function handleLogout() {
+    dispatch(logout());
+  }
 
   return (
     <>
@@ -9,9 +20,9 @@ function Header({ user, logOut }) {
         <h1 className='self-center md:ml-4 text-[var(--main-color)] font-bold text-2xl sm:text-4xl'>School dashboard</h1>
       </div>
 
-      {user.isLoggedIn && (
+      {isLoggedIn && (
         <section id="logoutSection">
-          <p>Welcome <strong>{user.email}</strong> <a onClick={logOut} href="#">(logout)</a></p>
+          <p>Welcome <strong>{user.email}</strong> <a onClick={handleLogout} href="#">(logout)</a></p>
         </section>
       )}
     </>
