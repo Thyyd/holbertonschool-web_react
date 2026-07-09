@@ -8,7 +8,7 @@ const APP_ACTIONS = {
 };
 
 const initialState = {
-  displayDrawer: false,
+  displayDrawer: true,
   user: { email: '', password: '', isLoggedIn: false },
   notifications: [],
   courses: []

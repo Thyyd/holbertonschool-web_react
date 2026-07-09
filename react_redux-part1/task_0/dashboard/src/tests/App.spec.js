@@ -81,7 +81,7 @@ describe('App component', () => {
     render(<App />);
     const BodySectionh2 = screen.getByRole('heading', { level: 2, name: /News from the School/i });
     // const BodySectionp = screen.getByText(/Holberton School News goes here/i);
-    const BodySectionp = screen.getByText(/ipsum Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique, asperiores architecto blanditiis fuga doloribus sit illum aliquid ea distinctio minus accusantium, impedit quo voluptatibus ut magni dicta. Recusandae, quia dicta?/i);
+    const BodySectionp = screen.getByText(/Holberton School News goes here?/i);
     expect(BodySectionh2).toBeInTheDocument();
     expect(BodySectionp).toBeInTheDocument();
   });
@@ -120,16 +120,22 @@ describe('App component', () => {
     // Simulation de l'appel à Axios pour récupérer les données des fichiers json
     await act(async () => {
       mockAxios.mockResponse({ data: notificationsList });
-      mockAxios.mockResponse({ data: coursesList });
     });
 
-    // Simumation du clic pour ouvrir le panel
+    // Simumation du clic pour fermer le panel ouvert par défaut
     const user = userEvent.setup();
-    const yourNotifElem = screen.getByText(/Your notifications/i);
-    await user.click(yourNotifElem);
 
     const panelTitle = await screen.findByText(/Here is the list of notifications/i);
     expect(panelTitle).toBeInTheDocument();
+    const closeButton = screen.getByRole('button', { name: /close/i });
+    await user.click(closeButton);
+    expect(panelTitle).not.toBeInTheDocument();
+
+    // Simulation du clic pour ouvrir le panel
+    const yourNotifElem = screen.getByText(/Your notifications/i);
+    await user.click(yourNotifElem);
+    const newPanelTitle = await screen.findByText(/Here is the list of notifications/i);
+    expect(newPanelTitle).toBeInTheDocument();
   });
 
   test("Vérification que le panel se ferme quand on clique sur la croix du panel", async () => {
@@ -137,13 +143,10 @@ describe('App component', () => {
     // Simulation de l'appel à Axios pour récupérer les données des fichiers json
     await act(async () => {
       mockAxios.mockResponse({ data: notificationsList });
-      mockAxios.mockResponse({ data: coursesList });
     });
 
     // Simumation du clic pour ouvrir le panel
     const user = userEvent.setup();
-    const yourNotifElem = screen.getByText(/Your notifications/i);
-    await user.click(yourNotifElem);
 
     const panelTitle = await screen.findByText(/Here is the list of notifications/i);
     expect(panelTitle).toBeInTheDocument();
@@ -159,16 +162,10 @@ describe('App component', () => {
     // Simulation de l'appel à Axios pour récupérer les données des fichiers json
     await act(async () => {
       mockAxios.mockResponse({ data: notificationsList });
-      mockAxios.mockResponse({ data: coursesList });
     });
 
-    // Simumation du clic pour ouvrir le panel
+    // Génération de l'user
     const user = userEvent.setup();
-    const yourNotifElem = screen.getByText(/Your notifications/i);
-    await user.click(yourNotifElem);
-
-    const panelTitle = await screen.findByText(/Here is the list of notifications/i);
-    expect(panelTitle).toBeInTheDocument();
 
     // Simulation du clic sur une notification pour vérifier qu'elle disparaîsse et que le message est bien log dans la console
     const panelElement = screen.getByText(/New resume available/i);
@@ -239,15 +236,9 @@ describe('App component', () => {
     // Simulation de l'appel à Axios pour récupérer les données des fichiers json
     await act(async () => {
       mockAxios.mockResponse({ data: notificationsList });
-      mockAxios.mockResponse({ data: coursesList });
     });
 
-    // Simumation du clic pour ouvrir le panel
-    const user = userEvent.setup();
-    const yourNotifElem = screen.getByText(/Your notifications/i);
-    await user.click(yourNotifElem);
-
-    const panelNotification = await screen.findByText(/New course available/i);
+    const panelNotification = screen.getByText(/New course available/i);
     expect(panelNotification).toBeInTheDocument();
   });
 
@@ -256,7 +247,6 @@ describe('App component', () => {
     // Simulation de l'appel à Axios pour récupérer les données des fichiers json
     await act(async () => {
       mockAxios.mockResponse({ data: notificationsList });
-      mockAxios.mockResponse({ data: coursesList });
     });
     // Initialisation de l'user
     const user = userEvent.setup();

@@ -46,6 +46,11 @@ function App() {
 
   useEffect(() => {
     const fetchCoursesData = async () => {
+      if (!state.user.isLoggedIn) {
+        dispatch({ type: APP_ACTIONS.SET_COURSES, payload: [] });
+        return;
+      }
+
       try {
         const baseUrl = import.meta.env.BASE_URL || '/';
         const response = await axios.get(`${baseUrl}courses.json`);
@@ -102,9 +107,7 @@ function App() {
         </BodySectionWithMarginBottom>
       }
       <BodySection title={'News from the School'}>
-        <p className='pl-4'>ipsum Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Similique, asperiores architecto blanditiis fuga doloribus sit illum aliquid ea distinctio
-          minus accusantium, impedit quo voluptatibus ut magni dicta. Recusandae, quia dicta?</p>
+        <p className='pl-4'>Holberton School News goes here</p>
       </BodySection>
       <Footer user={state.user} />
     </div>
