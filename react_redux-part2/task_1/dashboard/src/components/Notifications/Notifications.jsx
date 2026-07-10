@@ -12,6 +12,8 @@ function Notifications() {
     (state) => state.notifications.notifications,
     (prev, next) => prev.length === next.length
   );
+  const loading = useSelector((state) => state.notifications.loading);
+
   const dispatch = useDispatch();
 
   function handleMarkNotificationAsRead(id) {
@@ -28,6 +30,8 @@ function Notifications() {
       DrawerRef.current.style.opacity = 0;
     }
   }
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div className='Notification-Component flex flex-wrap justify-end mr-2.5'>

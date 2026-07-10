@@ -4,7 +4,8 @@ import { getLatestNotification } from '../../utils/utils';
 const API_BASE_URL = import.meta.env.BASE_URL;
 
 const initialState = {
-  notifications: []
+  notifications: [],
+  loading: false
 };
 
 const ENDPOINTS = {
@@ -43,9 +44,17 @@ const notificationsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchNotifications.fulfilled, function (state, action) {
-      state.notifications = action.payload
-    });
+    builder
+      .addCase(fetchNotifications.pending, function (state) {
+        state.loading = true;
+      })
+      .addCase(fetchNotifications.fulfilled, function (state, action) {
+        state.loading = false;
+        state.notifications = action.payload;
+      })
+      .addCase(fetchNotifications.rejected, function (state) {
+        state.loading = false;
+      });
   }
 })
 

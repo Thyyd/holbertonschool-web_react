@@ -4,13 +4,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import notificationsReducer, { fetchNotifications, markNotificationAsRead } from "../../features/notifications/notificationsSlice";
 import Notifications from './Notifications';
 
-function renderNotifications() {
+function renderNotifications(loading = false) {
   const store = configureStore({
     reducer: {
       notifications: notificationsReducer
     },
     preloadedState: {
-      notifications: { notifications: [] },
+      notifications: { notifications: [], loading },
     }
   });
   render(<Provider store={store}><Notifications /></Provider>);
@@ -94,5 +94,15 @@ describe('Notifications component', () => {
     // Vérification des éléments qui ne doivent pas s'afficher
     const panelElement = document.querySelector('.notification-items');
     expect(panelElement.style.visibility).toBe("hidden");
+  });
+
+  test("Affiche 'Loading...' quand loading est true", () => {
+    renderNotifications(true);
+    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+  });
+
+  test("N'affiche pas 'Loading...' quand loading est false", () => {
+    renderNotifications();
+    expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument();
   });
 });
