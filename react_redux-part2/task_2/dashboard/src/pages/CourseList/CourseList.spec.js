@@ -1,3 +1,4 @@
+import { act } from 'react';
 import { render, screen, within } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -6,7 +7,7 @@ import coursesReducer, { fetchCourses, selectCourse, unSelectCourse } from '../.
 import userEvent from '@testing-library/user-event';
 import CourseList from './CourseList';
 
-function renderCourseList(isLoggedIn = true) {
+function renderCourseList(isLoggedIn = true, courses = []) {
   const store = configureStore({
     reducer: { auth: authReducer, courses: coursesReducer },
     preloadedState: {
@@ -17,7 +18,6 @@ function renderCourseList(isLoggedIn = true) {
   render(<Provider store={store}><CourseList /></Provider>);
   return store;
 }
-
 
 // Déclaration de coursesList
 const mockCoursesList = [
@@ -42,7 +42,9 @@ describe('CourseList component', () => {
     });
 
     const store = renderCourseList();
-    await store.dispatch(fetchCourses());
+    act(() => {
+      store.dispatch(fetchCourses());
+    });
 
     const tableElement = screen.getByRole('table');
     expect(tableElement).toBeInTheDocument();
@@ -54,7 +56,10 @@ describe('CourseList component', () => {
 
   test("Vérification que le tableau de courses est bien reset quand logout est appelé", () => {
     const store = renderCourseList();
-    store.dispatch(logout());
+    act(() => {
+      store.dispatch(logout());
+    });
+
 
     const state = store.getState().courses;
     expect(state.courses).toEqual([]);
@@ -70,5 +75,4 @@ describe('CourseList component', () => {
     await userEvent.click(checkbox);
     expect(store.getState().courses.courses[0].isSelected).toBe(false);
   });
-
 });

@@ -42,9 +42,12 @@ const coursesSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(fetchCourses.fulfilled, function (state, action) {
-      state.courses = action.payload.map(course => ({ ...course, isSelected: false }));
-    });
-    builder.addCase(logout, function (state, action) {
+      state.courses = action.payload.map(course => ({
+        ...course,
+        isSelected: false
+      }));
+    })
+    .addCase(logout, function (state, action) {
       state.courses = initialState.courses;
     });
   }
